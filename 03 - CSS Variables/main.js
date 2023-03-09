@@ -1,7 +1,7 @@
 'use strict'
 
 window.addEventListener('DOMContentLoaded', () => {
-  const root = document.querySelector(':root')
+  const root = document.documentElement
   const rangeSpacing = document.querySelector('input[id="spacing"]')
   const rangeBlur = document.querySelector('input[id="blur"]')
   const colorPicker = document.querySelector('input[id="baseColor"]')
@@ -11,17 +11,13 @@ window.addEventListener('DOMContentLoaded', () => {
     blur: '--blur',
     baseColor: '--baseColor',
   }
-  const isRootExist = root && root instanceof HTMLElement
 
   if (rangeSpacing && rangeSpacing instanceof HTMLInputElement) {
     rangeSpacing.addEventListener('input', evt => {
       if (evt && evt.target) {
         // @ts-ignore
         const value = +evt.target.value
-
-        if (isRootExist) {
-          root.style.setProperty(CSS_VAR.spacing, value + 'px')
-        }
+        root.style.setProperty(CSS_VAR.spacing, value + 'px')
       }
     })
   }
@@ -31,10 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (evt && evt.target) {
         // @ts-ignore
         const value = +evt.target.value
-
-        if (isRootExist) {
-          root.style.setProperty(CSS_VAR.blur, value + 'px')
-        }
+        root.style.setProperty(CSS_VAR.blur, value + 'px')
       }
     })
   }
@@ -44,10 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (evt && evt.target) {
         // @ts-ignore
         const value = evt.target.value
-
-        if (isRootExist) {
-          root.style.setProperty(CSS_VAR.baseColor, value)
-        }
+        root.style.setProperty(CSS_VAR.baseColor, value)
       }
     })
   }
