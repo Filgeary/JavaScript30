@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       elem.addEventListener('transitionend', evt => {
         if (evt && evt instanceof TransitionEvent) {
-          if (evt.propertyName !== 'flex-grow') return
+          if (!evt.propertyName.includes('flex')) return
 
           if (elem.classList.contains('isActive')) {
             elem.classList.remove('isActive')
