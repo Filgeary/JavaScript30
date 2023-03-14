@@ -34,24 +34,27 @@ window.addEventListener('DOMContentLoaded', () => {
     return city.toLowerCase().includes(query) || state.toLowerCase().includes(query)
   }
 
-  function render(arr) {
+  function formatNumber(value) {
+    return new Intl.NumberFormat().format(value)
+  }
+
+  function render(arr, query) {
+    const regex = new RegExp(query, 'gi')
+
     if (arr && Array.isArray(arr)) {
       arr.forEach(item => {
         const { city, state, population } = item
+        const cityName = city.replace(regex, `<span class="hl">${query}</span>`)
+        const stateName = state.replace(regex, `<span class="hl">${query}</span>`)
 
-        const liElem = document.createElement('li')
-        const spanTitle = document.createElement('span')
-        const spanPopulation = document.createElement('span')
+        const html = `
+          <li>
+            <span class="title">${cityName}, ${stateName}</span>
+            <span class="population">${formatNumber(population)}</span>
+          </li>
+        `
 
-        spanTitle.textContent = `${city}, ${state}`
-        spanTitle.classList.add('title')
-        liElem.appendChild(spanTitle)
-
-        spanPopulation.textContent = population
-        spanPopulation.classList.add('population')
-        liElem.appendChild(spanPopulation)
-
-        ulElem?.appendChild(liElem)
+        ulElem?.insertAdjacentHTML('beforeend', html)
       })
     }
   }
@@ -69,12 +72,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (inputElem && inputElem instanceof HTMLInputElement) {
     inputElem.addEventListener('input', function () {
-      if (this.value === '' || this.value === ' ') return
+      if (this.value === '' || this.value === ' ') {
+        clear(ulElem)
+        return
+      }
 
       const query = this.value.toLowerCase()
       const filtered = cities.filter(item => filterData(query, item))
       clear(ulElem)
-      render(filtered)
+      render(filtered, query)
     })
   }
 })
