@@ -2,27 +2,18 @@ window.addEventListener('DOMContentLoaded', init)
 
 function init() {
   const inbox = document.querySelector('.inbox')
-  const inputs = inbox?.querySelectorAll('input') || []
-  let isShiftPressed = false
+  if (!inbox || !(inbox instanceof HTMLElement)) return
+  const inputs = [...inbox.querySelectorAll('input')]
+  if (!inputs) return
+
   let from = 0
   let to = 0
 
-  window.addEventListener('keydown', evt => {
-    if (evt.key === 'Shift') {
-      isShiftPressed = true
-      const { start, end } = findChecked()
-      from = start
-      to = end
-    }
-  })
-  window.addEventListener('keyup', evt => {
-    if (evt.key === 'Shift') {
-      isShiftPressed = false
-    }
-  })
-
-  inbox?.addEventListener('click', () => {
-    if (isShiftPressed) {
+  inbox.addEventListener('click', evt => {
+    if (evt.shiftKey) {
+      const { start, end } = findChecked() || {}
+      from = start || 0
+      to = end || 0
       checkItems(from, to)
     }
   })
@@ -39,14 +30,18 @@ function init() {
   }
 
   function findChecked() {
-    let start = [...inputs].findIndex(elem => elem.checked)
+    let start = inputs.findIndex(elem => elem.checked)
     start = start > -1 ? start + 1 : 0
 
-    let end = [...inputs]
-      .slice()
-      .reverse()
-      .findIndex(elem => elem.checked)
-    end = end > -1 ? end + 1 : 0
+    let end
+    for (let i = inputs.length - 1; i >= 0; i--) {
+      const element = inputs[i]
+      if (element.checked) {
+        end = i
+        break
+      }
+    }
+    end = end && end > -1 ? end + 1 : 0
 
     return {
       start,
