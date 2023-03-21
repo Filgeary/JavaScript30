@@ -31,6 +31,16 @@ function init() {
   video.addEventListener('click', togglePlaying)
   toggleControl.addEventListener('click', togglePlaying)
 
+  // update icon
+  function updateIcon() {
+    if (this && this instanceof HTMLVideoElement) {
+      const icon = this.paused ? '►' : '❚ ❚'
+      if (toggleControl) toggleControl.textContent = icon
+    }
+  }
+  video.addEventListener('play', updateIcon)
+  video.addEventListener('pause', updateIcon)
+
   // volume
   if (rangeVolume instanceof HTMLInputElement) {
     rangeVolume.addEventListener('change', function () {
@@ -49,24 +59,29 @@ function init() {
   skipButtons.forEach(elem => {
     if (elem instanceof HTMLElement) {
       elem.addEventListener('click', function () {
-        const value = Number(this.dataset.skip)
-        const currentTime = Math.floor(video.currentTime)
-        video.currentTime = Math.max(currentTime + value, 0)
+        video.currentTime += parseInt(this.dataset.skip || '')
       })
     }
   })
 
   // progress
   function updateProgress() {
-    let diff, ratio
+    let ratio
     if (video) {
       const { duration, currentTime } = video
-      diff = Math.floor(duration - currentTime)
-      ratio = (100 - (diff / duration) * 100).toFixed(2)
+      ratio = ((currentTime / duration) * 100).toFixed(2)
     }
     if (progressBar instanceof HTMLElement) {
       progressBar.style.flexBasis = `${ratio}%`
     }
   }
-  video.addEventListener('loadeddata', () => setInterval(updateProgress, 1000))
+  video.addEventListener('timeupdate', updateProgress)
+
+  // scrub
+  if (progress instanceof HTMLElement) {
+    progress.addEventListener('click', evt => {
+      const scrubTime = Math.floor((evt.offsetX / progress.clientWidth) * video.duration)
+      video.currentTime = scrubTime
+    })
+  }
 }
