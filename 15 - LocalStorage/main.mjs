@@ -5,27 +5,27 @@ function main() {
   const ul = document.querySelector('ul')
   if (!form || !ul) return
 
-  let state = []
-
-  function getLocalState() {
+  function getLocalStateAsArray() {
     const localState = localStorage.getItem('state')
-    return localState && JSON.parse(localState)
+    const res = localState ? JSON.parse(localState) : []
+    return Array.isArray(res) ? res : null
+  }
+  const state = getLocalStateAsArray() ?? []
+
+  function clearUlList(node) {
+    if (node && node instanceof HTMLElement) {
+      Array.from(node.children).forEach(elem => elem.remove())
+    }
   }
 
-  function clearUlList() {
-    if (ul) Array.from(ul.children).forEach(elem => elem.remove())
-  }
-
-  function initRender() {
-    state = getLocalState() ?? []
-
-    if (Array.isArray(state) && state.length) {
-      const rawHtml = state.map(({ text, isChecked }) => createListItem(text, isChecked)).join('')
-      clearUlList()
+  function initRender(dataset) {
+    if (Array.isArray(dataset) && dataset.length) {
+      const rawHtml = dataset.map(({ text, isChecked }) => createListItem(text, isChecked)).join('')
+      clearUlList(ul)
       ul?.insertAdjacentHTML('afterbegin', rawHtml)
     }
   }
-  initRender()
+  initRender(state)
 
   function createListItem(text, isChecked) {
     return `
@@ -36,15 +36,13 @@ function main() {
     `
   }
 
-  function updateState(idx, id, checked) {
-    state = [
-      ...state.slice(0, idx),
-      {
-        text: id,
-        isChecked: checked,
-      },
-      ...state.slice(idx + 1),
-    ]
+  function updateState(state, idx) {
+    if (Array.isArray(state) && state.length) {
+      const obj = state[idx]
+      if (obj && typeof obj === 'object') {
+        obj.isChecked = !obj.isChecked
+      }
+    }
   }
 
   function updateLocalState(data) {
@@ -53,7 +51,7 @@ function main() {
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault()
-    if (!state.length) clearUlList()
+    if (!state.length) clearUlList(ul)
 
     const value = new FormData(this).get('item')
     const listItem = createListItem(value)
@@ -67,11 +65,11 @@ function main() {
 
   ul.addEventListener('input', function (evt) {
     if (evt && evt.target instanceof HTMLInputElement) {
-      const { id, checked } = evt.target
+      const { id } = evt.target
       const idx = state.findIndex(elem => elem.text === id)
 
       if (idx > -1) {
-        updateState(idx, id, checked)
+        updateState(state, idx)
         updateLocalState(state)
       }
     }
