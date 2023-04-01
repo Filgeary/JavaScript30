@@ -10,6 +10,7 @@ function main() {
   // @ts-ignore
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   const recognition = new SpeechRecognition()
+  recognition.interimResults = true
   let isStopped = false
 
   // onstart
@@ -24,12 +25,15 @@ function main() {
   })
 
   // onresult
+  let p = document.createElement('p')
+  sectionElem.appendChild(p)
+
   recognition.addEventListener('result', evt => {
-    const results = evt.results[0][0]
-    const text = results?.transcript
+    const isFinal = evt.results[0]?.isFinal
+    const { transcript: text } = evt.results[0][0]
 
     if (text === 'delete all') {
-      sectionElem.innerText = ''
+      Array.from(sectionElem.children).forEach(elem => elem.remove())
       return
     }
     if (text === 'stop') {
@@ -37,6 +41,11 @@ function main() {
       recognition.stop()
       return
     }
-    sectionElem.innerText += text + '\n'
+    if (!isFinal) {
+      p.textContent = text
+    } else {
+      p = document.createElement('p')
+      sectionElem.appendChild(p)
+    }
   })
 }
