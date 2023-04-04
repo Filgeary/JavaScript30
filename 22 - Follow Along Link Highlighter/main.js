@@ -5,18 +5,24 @@ function main() {
   if (!links.length) return
   console.log('init')
 
-  function clearLinks() {
-    links.forEach(elem => {
-      elem.style.position = 'static'
-      elem.classList.remove('highlight')
-    })
-  }
+  // prepare element
+  const highlightElem = document.createElement('span')
+  highlightElem.classList.add('highlight')
+  document.body.appendChild(highlightElem)
 
   links.forEach(link => {
     link.addEventListener('mouseenter', function () {
-      clearLinks()
-      this.style.position = 'relative'
-      this.classList.add('highlight')
+      const { width, height, top, left } = this.getBoundingClientRect()
+      const coords = {
+        width,
+        height,
+        top: top + window.scrollY,
+        left: left + window.scrollX,
+      }
+
+      highlightElem.style.width = `${coords.width}px`
+      highlightElem.style.height = `${coords.height}px`
+      highlightElem.style.transform = `translate(${coords.left}px, ${coords.top}px)`
     })
   })
 }
