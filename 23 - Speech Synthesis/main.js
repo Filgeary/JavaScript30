@@ -37,24 +37,39 @@ function main() {
     voicesSelect.insertAdjacentHTML('beforeend', rawOptions)
   })
 
+  function restartSpeaking() {
+    stopSpeak()
+    startSpeak()
+  }
+
   // setup voice
   voicesSelect.addEventListener('change', function () {
     if (this.value === '') return
     speechService.voice = voices.find(voice => voice.name === this.value)
+    restartSpeaking()
   })
 
   // start speak
-  speakButton.addEventListener('click', () => {
+  function startSpeak() {
+    if (!(rateInput instanceof HTMLInputElement) || !(pitchInput instanceof HTMLInputElement))
+      return
+
     speechService.text = textShouldSpeak
-    const selectedOption = voicesSelect.selectedOptions[0].value
+    const selectedOption = voicesSelect?.selectedOptions[0].value
     speechService.voice = voices.find(voice => voice.name === selectedOption)
-    speechService.rate = +rateInput.value
-    speechService.pitch = +pitchInput.value
+    speechService.rate = +rateInput?.value
+    speechService.pitch = +pitchInput?.value
     speechSynthProp.speak(speechService)
-  })
+  }
+  speakButton.addEventListener('click', startSpeak)
 
   // stop speak
-  stopButton.addEventListener('click', () => {
+  function stopSpeak() {
     speechSynthProp.cancel()
-  })
+  }
+  stopButton.addEventListener('click', stopSpeak)
+
+  // rate & pitch
+  rateInput.addEventListener('change', restartSpeaking)
+  pitchInput.addEventListener('change', restartSpeaking)
 }
