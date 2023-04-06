@@ -1,21 +1,19 @@
 window.addEventListener('DOMContentLoaded', main)
 
 function main() {
-  const nav = document.querySelector('nav ul')
-  const logoElem = nav?.querySelector('.logo')
-  const headerHeight = document.querySelector('header')?.getBoundingClientRect().height
-  if (!nav || !logoElem || !headerHeight) return
-  if (!(logoElem instanceof HTMLElement)) return
+  const body = document.body
+  const nav = document.querySelector('nav')
+  if (!nav) return
   console.log('init')
 
-  const logoWidth = Math.floor(window.innerWidth / (nav.children.length - 1))
+  const navOffsetTop = nav.offsetTop
 
   // TODO: add throttling
   window.addEventListener('scroll', () => {
-    if (window.scrollY > headerHeight) {
-      logoElem.style.maxWidth = `${logoWidth}px`
+    if (window.scrollY > navOffsetTop) {
+      body.classList.add('js-sticky')
     } else {
-      logoElem.style.maxWidth = '0'
+      body.classList.remove('js-sticky')
     }
   })
 }

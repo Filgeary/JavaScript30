@@ -26,6 +26,9 @@ body {
   transform: scale(0.98);
   transition: transform 0.5s;
 }
+.js-sticky .site-wrap {
+  transform: scale(1);
+}
 
 header {
   text-align: center;
@@ -74,9 +77,13 @@ li.logo {
   max-width: 0;
   overflow: hidden;
   background: white;
-  transition: all 0.5s;
+  transition: all 0.6s;
   font-weight: 600;
   font-size: 30px;
+}
+.js-sticky li.logo {
+  max-width: 400px;
+  transition: all 0.8s;
 }
 
 li.logo a {
