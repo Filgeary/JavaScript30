@@ -1,7 +1,7 @@
 html {
   box-sizing: border-box;
   background: #eeeeee;
-  font-family: 'helvetica neue';
+  font-family: 'Ubuntu';
   font-size: 20px;
   font-weight: 200;
 }
@@ -10,13 +10,15 @@ body {
   margin: 0;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
 .site-wrap {
   max-width: 700px;
-  margin: 70px auto;
+  margin: 40px auto;
   background: white;
   padding: 40px;
   text-align: justify;
@@ -37,22 +39,25 @@ header {
 
 h1 {
   color: white;
-  font-size: 7vw;
-  text-shadow: 3px 4px 0 rgba(0,0,0,0.2);
+  font-size: 6vw;
+  font-weight: normal;
+  text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 nav {
+  margin: 0;
+  padding: 0;
   background: black;
   top: 0;
   width: 100%;
   transition: all 0.5s;
-  position: relative;
+  position: sticky;
   z-index: 1;
 }
 
 nav ul {
   margin: 0;
-  padding:0;
+  padding: 0;
   list-style: none;
   display: flex;
 }
@@ -69,7 +74,7 @@ li.logo {
   max-width: 0;
   overflow: hidden;
   background: white;
-  transition: all .5s;
+  transition: all 0.5s;
   font-weight: 600;
   font-size: 30px;
 }
