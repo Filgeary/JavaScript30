@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
+    <link
+      rel="icon"
+      href="https://fav.farm/🔥"
+    />
+  </head>
+
+  <body class="body">
+    <h1>Handling Events</h1>
+
+    <div class="section-wrapper">
+      <section class="outer">
+        <span>Outer</span>
+
+        <section class="middle">
+          <span>Middle</span>
+
+          <section class="inner">
+            <span>Inner</span>
+            <i>Click me</i>
+          </section>
+        </section>
+      </section>
+    </div>
+
+    <section class="controls">
+      <div class="controls-radio">
+        <div>
+          <input
+            type="radio"
+            name="bubbling/capture"
+            id="bubbling"
+            checked
+          />
+          <label for="bubbling">Event Bubbling (default)</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="bubbling/capture"
+            id="capture"
+          />
+          <label for="capture">Event Capture</label>
+        </div>
+      </div>
+
+      <div class="controls-checkbox">
+        <div>
+          <input
+            type="checkbox"
+            name="stop-propagation"
+            id="stop-propagation"
+          />
+          <label for="stop-propagation">Stop Propagation</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            name="event-once"
+            id="event-once"
+          />
+          <label for="event-once">Event Once</label>
+        </div>
+      </div>
+
+      <div class="controls-buttons">
+        <button id="clear">Clear Styles</button>
+        <button id="reset">Reset All</button>
+      </div>
+    </section>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
