@@ -11,15 +11,26 @@ function main() {
     if (!(elem instanceof HTMLLIElement) || !(background instanceof HTMLElement)) return
 
     elem.addEventListener('mouseenter', function () {
-      this.classList.add('trigger-enter', 'trigger-enter-active')
+      this.classList.add('trigger-enter')
+      setTimeout(() => {
+        if (this.classList.contains('trigger-enter')) {
+          this.classList.add('trigger-enter-active')
+        }
+      }, 100)
       const dropdown = this.querySelector('.dropdown')
       if (!(dropdown instanceof HTMLElement)) return
 
-      const { width, height, left, top } = dropdown.getBoundingClientRect()
+      const {
+        width,
+        height,
+        left: dropdownLeft,
+        top: dropdownTop,
+      } = dropdown.getBoundingClientRect()
+      const { left, top } = nav.getBoundingClientRect()
       background.classList.add('open')
       background.style.width = width + 'px'
       background.style.height = height + 'px'
-      background.style.transform = `translate(${left}px, ${top}px)`
+      background.style.transform = `translate(${dropdownLeft - left}px, ${dropdownTop - top}px)`
     })
   })
 
