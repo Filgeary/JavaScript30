@@ -20,9 +20,15 @@ function main() {
   let currentDelay = initDelay
   let ratioDelay = () => +((initDelay - currentDelay) / initDelay).toFixed(2)
   let timerIdRemoveMole
+  let prevHole
 
   const randomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min)
+  }
+
+  function getRandomHole() {
+    let currentHole = randomNumber(0, holes.length)
+    return prevHole === currentHole ? getRandomHole() : ((prevHole = currentHole), currentHole)
   }
 
   function updateSpeedBarWidth() {
@@ -31,14 +37,11 @@ function main() {
   }
 
   function showRandomMole() {
-    const randomHoleIndex = randomNumber(0, holes.length)
+    const randomHoleIndex = getRandomHole()
 
     holes.forEach((elem, i) => {
       if (i === randomHoleIndex) {
-        elem.classList.remove('up')
-        setTimeout(() => {
-          elem.classList.add('up')
-        }, 150)
+        elem.classList.add('up')
 
         if (isGameStarted) {
           timerIdRemoveMole = setTimeout(() => {
