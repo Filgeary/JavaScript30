@@ -4,28 +4,78 @@ html {
   background: #ffc600;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
 body {
+  min-height: 100vh;
   padding: 0;
   margin: 0;
   font-family: 'Amatic SC', cursive;
 }
 
+main {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  gap: 10px;
+  place-items: center;
+  margin: auto;
+  padding: 40px;
+}
+
 h1 {
+  margin: 0;
   text-align: center;
   font-size: 10rem;
   line-height: 1;
   margin-bottom: 0;
 }
 
+h2 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+button {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 4px 28px;
+  font: inherit;
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  border: 4px solid hsl(47, 100%, 40%);
+  border-radius: 12px;
+  transition: box-shadow 200ms;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  box-shadow: 4px 4px 0 0 currentColor;
+}
+
 .score {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   padding: 0 3rem;
   line-height: 1;
   border-radius: 1rem;
+}
+
+.speed__wrapper {
+  display: flex;
+  gap: 20px;
+  width: 60%;
+  text-align: left;
+}
+.speed__bar {
+  width: 0%;
+  background-color: hsl(47, 100%, 42%);
+  border-radius: 8px;
+  transition: width 300ms;
 }
 
 .game {
@@ -34,6 +84,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
+  margin-bottom: 40px;
 }
 
 .hole {
@@ -44,11 +95,11 @@ h1 {
 
 .hole:after {
   display: block;
-  background: url(dirt.svg) bottom center no-repeat;
+  background: url('dirt.svg') bottom center no-repeat;
   background-size: contain;
   content: '';
   width: 100%;
-  height:70px;
+  height: 70px;
   position: absolute;
   z-index: 2;
   bottom: -30px;
@@ -61,7 +112,7 @@ h1 {
   top: 100%;
   width: 100%;
   height: 100%;
-  transition:all 0.4s;
+  transition: all 0.4s;
 }
 
 .hole.up .mole {
