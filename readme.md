@@ -9,3 +9,15 @@ All the Source Code by Wes Bos. [GitHub Repo](https://github.com/wesbos/JavaScri
 Big Thanks, Wes Bos, for your Amazing Course!
 
 Now, I'm gonna coding this :)
+
+30 days later...
+
+Finally, I've finished.
+
+Funny projects.
+
+Great experience.
+
+High recommend. 👍
+
+5 Stars. ⭐
