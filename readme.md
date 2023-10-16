@@ -21,3 +21,5 @@ Great experience.
 High recommend. 👍
 
 5 Stars. ⭐
+
+I solved almost all of them, besides 2 tasks (canvas & webRTC).
